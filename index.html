@@ -16,33 +16,29 @@
 
 <body>
  <div class="container">
-  <header class="row text-light bg-primary mb-4">
-   <div class="col-2 p-3">
-    <i class="fa fa-umbrella fa-5x text-white rounded"></i>
+  <header class="row text-light bg-primary mb-3">
+   <div class="col-2 p-2 d-none d-sm-block">
+    <i class="fa fa-umbrella fa-4x text-white p-md-3"></i>
    </div>
    <div class="col">
     <h1>Weather Dashboard</h1>
-    <p>See weather conditions and forecast for any city</p>
-    <hr>
    </div>
   </header>
   <div class="row">
-   <div class="col-4">
+   <div class="col-12 col-sm-4">
     <h3 class="text-light bg-secondary">Search</h3>
-    <br>
     <form>
-     <label for="searchField"><strong>Enter City Name</strong> </label><br>
+     <label for="searchField"><strong>Enter City</strong> </label><br>
      <input type="search" id="search-field" placeholder="example: Seattle"> &nbsp;
      <input type="submit" id="search-button" value="Search"><br>
     </form>
-    <br>
     <h3 class="text-light bg-secondary">Search History</h3>
     <ul id="search-history" class="list-group"></ul>
     <button type="button" id="clear-history">Clear History</button>
    </div>
-   <div id="welcome" class="col p-4">
-    <h1 class="mb-4">Welcome</h1>
-    <strong>Search for a city in the search panel on the left or click on one of your saved searches.</strong>
+   <div id="welcome" class="col">
+    <h3 class="text-light bg-secondary">Welcome</h3>
+    <strong>Search for a city or click on one of your saved searches.</strong>
    </div>
    <div id="weather" class="col d-none">
     <div class="row">
@@ -54,7 +50,7 @@
     </div>
     <div class="row">
      <div class="col"></div>
-     <div class="col-6">
+     <div class="col col-md-6">
       <div class="card">
        <img id="main-icon" class="card-img-top">
        <div class="card-body text-white">
