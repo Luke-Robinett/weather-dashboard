@@ -43,8 +43,14 @@ $(document).ready(function () {
 function displayCurrentWeather(city) {
  $.ajax({
   url: "https://api.openweathermap.org/data/2.5/weather?APPID=" + appId + "&q=" + city + "&units=imperial",
-  method: "GET"
+  method: "GET",
+  error: function() {
+   alert("Nothing found.");
+  }
  }).then(function (response) {
+  $("#welcome").addClass("d-none");
+  $("#weather").removeClass("d-none");
+
   $("#city").text(response.name);
   var iconSrc = "http://openweathermap.org/img/wn/" + response.weather[0].icon + "@2x.png";
   $("#main-icon").attr("src", iconSrc);
