@@ -29,7 +29,8 @@
     </form>
     <br>
     <h3>Search History</h3>
-    <div id="search-history"></div>
+    <ul id="search-history" class="list-group"></ul>
+    <button type="button" id="clear-history">Clear History</button>
    </div>
    <div class="col">
     <div class="row">
@@ -79,29 +80,55 @@
 
 
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-  integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-  integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+ <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+ <script src="assets/lockr.js"></script>
+
  <script>
+  // Store the Open Weather API key globally so all JS functions can access it
   var appId = "66a22b3ac35b14a53d37aa2c7d5ab149";
+
+  // Main program
   $(document).ready(function () {
    // Display today's date
    $("#main-date").text(moment().format("dddd, MMMM Do"));
 
+   // Load search history
+   displaySearchHistory();
+
+   // Search button event handler
    $("#search-button").click(function (event) {
     event.preventDefault();
+
     var city = $("#search-field").val().trim();
     if (city.length > 0) {
-     getCurrentWeather(city);
+     saveToSearchHistory(city);
+     displayCurrentWeather(city);
+     $("#search-field").val("");
+     displaySearchHistory();
     } else {
      alert("Search field cannot be blank.");
     }
    });
+
+   // Search history links event handler
+   $(".history-link").click(function(event) {
+    event.preventDefault();
+
+    displayCurrentWeather($(this).text());
+   });
+
+   // Clear history button event handler
+   $("#clear-history").click(function(event) {
+    event.preventDefault();
+
+    Lockr.set("searchHistory", null);
+    displaySearchHistory();
+   });
   });
 
-  function getCurrentWeather(city) {
+  function displayCurrentWeather(city) {
    $.ajax({
     url: "https://api.openweathermap.org/data/2.5/weather?APPID=" + appId + "&q=" + city + "&units=imperial",
     method: "GET"
@@ -118,13 +145,43 @@
   }
 
   function displayUvIndex(lat, lon) {
-   var value;
    $.ajax({
     url: "http://api.openweathermap.org/data/2.5/uvi?appid=" + appId + "&lat=" + lat + "&lon=" + lon,
     method: "GET"
    }).then(function (response) {
     $("#main-uv").text(response.value);
    });
+  }
+
+  function displaySearchHistory() {
+   var searchHistory = Lockr.get("searchHistory");
+   if (searchHistory != null) {
+    $("#search-history").empty();
+    for (var i = 0; i < searchHistory.length; i++) {
+     var historyItem = $("<li>").addClass("list-group-item");
+     var historyLink = $("<a>").addClass("history-link");
+     historyLink.text(searchHistory[i]);
+     historyLink.attr("href", "");
+     historyItem.append(historyLink);
+     $("#search-history").prepend(historyItem);
+    }
+   } else {
+    $("#search-history").append("<strong>").text("No search history");
+   }
+  }
+
+  function saveToSearchHistory(city) {
+   var searchHistory = Lockr.get("searchHistory");
+   city = city.toLowerCase();
+
+   if (searchHistory!= null) {
+    if (!searchHistory.includes(city)) {
+     searchHistory.push(city);
+    }
+   } else {
+    searchHistory = [ city ];
+   }
+   Lockr.set("searchHistory", searchHistory);
   }
  </script>
 </body>
