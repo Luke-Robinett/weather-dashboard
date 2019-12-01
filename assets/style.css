@@ -1,14 +1,7 @@
 .card {
- background-image: linear-gradient(lightblue, blue);
  box-shadow: 10px 10px 5px grey;
- width: 15rem;
-}
-
-.card-5day {
- width: 5rem;
 }
 
 .card-img-top {
  background: transparent;
- filter: invert(100%);
 }

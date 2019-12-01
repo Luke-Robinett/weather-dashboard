@@ -52,7 +52,7 @@ function displayCurrentWeather(city) {
   $("#weather").removeClass("d-none");
 
   $("#city").text(response.name);
-  var iconSrc = "http://openweathermap.org/img/wn/" + response.weather[0].icon + "@2x.png";
+  var iconSrc = "http://openweathermap.org/img/wn/" + response.weather[0].icon + ".png";
   $("#main-icon").attr("src", iconSrc);
   $("#main-icon").attr("alt", response.weather[0].description);
   $("#main-temp").text(Math.round(response.main.temp) + " F");
@@ -83,14 +83,15 @@ function displayExtendedForecast(id) {
 
   // Set up loop to get temp at 12 PM of each of the 5 days since results are in 3-hour segments
   for (var i = 5; i < response.list.length; i += 8) {
-   var day = moment(response.list[i].dt_txt).format("dddd, MMMM Do");
+   // Store needed data from response
+   var day = moment(response.list[i].dt_txt).format("ddd");
    var temp = Math.round(response.list[i].main.temp);
    var humidity = response.list[i].main.humidity;
    var desc = response.list[i].weather[0].description;
    var iconSrc = "http://openweathermap.org/img/wn/" + response.list[i].weather[0].icon + ".png";
 
    // Create a new card
-   var newCard = $("<div>").addClass("card card-5day");
+   var newCard = $("<div>").addClass("card w-50");
 
    var cardImg = $("<img>").addClass("card-img-top");
    cardImg.attr("src", iconSrc);
@@ -100,21 +101,21 @@ function displayExtendedForecast(id) {
    var cardBody = $("<div>").addClass("card-body");
 
    var cardTitle = $("<h5>").addClass("card-title text-center");
-   cardTitle.text(temp + " F");
+   cardTitle.text(day);
    cardBody.append(cardTitle);
 
    var cardSubTitle = $("<h6>").addClass("card-subtitle text-center");
-   cardSubTitle.text("Hum: " + humidity + "%");
+   cardSubTitle.text(temp + " F");
    cardBody.append(cardSubTitle);
+
+   var cardText = $("<p>").addClass("card-text text-center");
+   cardText.text("H " + humidity + "%");
+   cardBody.append(cardText);
 
    newCard.append(cardBody);
 
-   var col = $("<div>").addClass("col");
-   col.append(newCard);
-
-   $("#forecast").append(col);
+   $("#forecast").append(newCard);
   }
-  console.log(response);
  });
 }
 
