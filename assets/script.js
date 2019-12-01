@@ -24,6 +24,22 @@ $(document).ready(function () {
   }
  });
 
+ // Current Location button event handler
+ $("#current").click(function (event) {
+  navigator.geolocation.getCurrentPosition(function (position) {
+   $.ajax({
+    url: "https://api.openweathermap.org/data/2.5/find?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude + "&cnt=1&APPID=" + appId,
+    method: "GET"
+   }).then(function (response) {
+    if (response.count > 0) {
+     displayCurrentWeather(response.list[0].name);
+    } else {
+     alert("Location info not available.");
+    }
+   });
+  });
+ });
+
  // Search history links event handler
  $(".history-link").click(function (event) {
   event.preventDefault();
