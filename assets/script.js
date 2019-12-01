@@ -44,7 +44,7 @@ function displayCurrentWeather(city) {
  $.ajax({
   url: "https://api.openweathermap.org/data/2.5/weather?APPID=" + appId + "&q=" + city + "&units=imperial",
   method: "GET",
-  error: function() {
+  error: function () {
    alert("Nothing found.");
   }
  }).then(function (response) {
@@ -59,6 +59,8 @@ function displayCurrentWeather(city) {
   $("#main-humidity").text(response.main.humidity + "%");
   $("#main-windspeed").text(Math.round(response.wind.speed) + " mph");
   displayUvIndex(response.coord.lat, response.coord.lon);
+
+  displayExtendedForecast(response.id);
  });
 }
 
@@ -68,6 +70,51 @@ function displayUvIndex(lat, lon) {
   method: "GET"
  }).then(function (response) {
   $("#main-uv").text(response.value);
+ });
+}
+
+function displayExtendedForecast(id) {
+ $.ajax({
+  url: "https://api.openweathermap.org/data/2.5/forecast?id=" + id + "&units=imperial&APPID=" + appId,
+  method: "GET"
+ }).then(function (response) {
+  // Clear card deck that will display 5-day forecast
+  $(".card-deck").empty();
+
+  // Set up loop to get temp at 12 PM of each of the 5 days since results are in 3-hour segments
+  for (var i = 5; i < response.list.length; i += 8) {
+   var day = moment(response.list[i].dt_txt).format("dddd, MMMM Do");
+   var temp = Math.round(response.list[i].main.temp);
+   var humidity = response.list[i].main.humidity;
+   var desc = response.list[i].weather[0].description;
+   var iconSrc = "http://openweathermap.org/img/wn/" + response.list[i].weather[0].icon + ".png";
+
+   // Create a new card
+   var newCard = $("<div>").addClass("card card-5day");
+
+   var cardImg = $("<img>").addClass("card-img-top");
+   cardImg.attr("src", iconSrc);
+   cardImg.attr("alt", desc);
+   newCard.append(cardImg);
+
+   var cardBody = $("<div>").addClass("card-body");
+
+   var cardTitle = $("<h5>").addClass("card-title text-center");
+   cardTitle.text(temp + " F");
+   cardBody.append(cardTitle);
+
+   var cardSubTitle = $("<h6>").addClass("card-subtitle text-center");
+   cardSubTitle.text("Hum: " + humidity + "%");
+   cardBody.append(cardSubTitle);
+
+   newCard.append(cardBody);
+
+   var col = $("<div>").addClass("col");
+   col.append(newCard);
+
+   $("#forecast").append(col);
+  }
+  console.log(response);
  });
 }
 
