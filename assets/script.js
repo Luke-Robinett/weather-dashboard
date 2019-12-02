@@ -1,5 +1,5 @@
 // Store the Open Weather API key globally so all JS functions can access it
-var appId = "66a22b3ac35b14a53d37aa2c7d5ab149";
+var appId = "660a3e65013c2dd5b7143e9563922a43";
 
 // Main program
 $(document).ready(function () {
@@ -70,7 +70,7 @@ function displayCurrentWeather(city) {
   $("#weather").removeClass("d-none");
 
   $("#city").text(response.name);
-  var iconSrc = "http://openweathermap.org/img/wn/" + response.weather[0].icon + ".png";
+  var iconSrc = "https://openweathermap.org/img/wn/" + response.weather[0].icon + "@2x.png";
   $("#main-icon").attr("src", iconSrc);
   $("#main-icon").attr("alt", response.weather[0].description);
   $("#main-temp").text(Math.round(response.main.temp) + " F");
@@ -84,7 +84,7 @@ function displayCurrentWeather(city) {
 
 function displayUvIndex(lat, lon) {
  $.ajax({
-  url: "http://api.openweathermap.org/data/2.5/uvi?appid=" + appId + "&lat=" + lat + "&lon=" + lon,
+  url: "https://api.openweathermap.org/data/2.5/uvi?appid=" + appId + "&lat=" + lat + "&lon=" + lon,
   method: "GET"
  }).then(function (response) {
   $("#main-uv").text(response.value);
@@ -96,8 +96,8 @@ function displayExtendedForecast(id) {
   url: "https://api.openweathermap.org/data/2.5/forecast?id=" + id + "&units=imperial&APPID=" + appId,
   method: "GET"
  }).then(function (response) {
-  // Clear card deck that will display 5-day forecast
-  $(".card-deck").empty();
+  // Clear div that will display 5-day forecast
+  $("forecast").empty();
 
   // Set up loop to get temp at 12 PM of each of the 5 days since results are in 3-hour segments
   for (var i = 5; i < response.list.length; i += 8) {
@@ -106,33 +106,26 @@ function displayExtendedForecast(id) {
    var temp = Math.round(response.list[i].main.temp);
    var humidity = response.list[i].main.humidity;
    var desc = response.list[i].weather[0].description;
-   var iconSrc = "http://openweathermap.org/img/wn/" + response.list[i].weather[0].icon + ".png";
+   var iconSrc = "https://openweathermap.org/img/wn/" + response.list[i].weather[0].icon + "@2x.png";
 
-   // Create a new card
-   var newCard = $("<div>").addClass("card w-50");
+   // Create a new col div
+   var newCol = $("<div>").addClass("col-4 col-sm-2 text-center justify-content-center");
 
-   var cardImg = $("<img>").addClass("card-img-top");
-   cardImg.attr("src", iconSrc);
-   cardImg.attr("alt", desc);
-   newCard.append(cardImg);
+   var dayHeading = $("<h3>").text(day).addClass("text-center");
+   newCol.append(dayHeading);
 
-   var cardBody = $("<div>").addClass("card-body");
+   var img = $("<img>");
+   img.attr("src", iconSrc);
+   img.attr("alt", desc);
+   newCol.append(img);
 
-   var cardTitle = $("<h5>").addClass("card-title text-center");
-   cardTitle.text(day);
-   cardBody.append(cardTitle);
+   var tempHeading = $("<h2>").text(temp + " F").addClass("text-center");
+   newCol.append(tempHeading);
 
-   var cardSubTitle = $("<h6>").addClass("card-subtitle text-center");
-   cardSubTitle.text(temp + " F");
-   cardBody.append(cardSubTitle);
+   var humidityP = $("<p>").text("H " + humidity).addClass("text-center");
+   newCol.append(humidityP);
 
-   var cardText = $("<p>").addClass("card-text text-center");
-   cardText.text("H " + humidity + "%");
-   cardBody.append(cardText);
-
-   newCard.append(cardBody);
-
-   $("#forecast").append(newCard);
+   $("#forecast").append(newCol);
   }
  });
 }

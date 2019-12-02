@@ -17,23 +17,22 @@
 <body>
   <div class="container bg-white">
     <header class="row text-light bg-primary mb-3">
-      <div class="col-2 p-2 d-none d-sm-block">
-        <i class="fa fa-umbrella fa-4x text-white p-md-3"></i>
+      <div class="col-2 p-2 d-none d-sm-block" align-items-center>
+        <i class="fa fa-umbrella fa-4x text-white"></i>
       </div>
-      <div class="col">
+      <div class="col align-items-center">
         <h1>Weather Dashboard</h1>
       </div>
     </header>
-    <nav class="row">
-      <div class="col-12 text-light bg-secondary pt-3 mb-3">
+    <nav class="row mb-3">
+      <div class="col-12 bg-dark pt-3">
         <form>
           <div class="form-group">
-            <label for="searchField"><strong>Search</strong> </label>
-            <input type="search" id="search-field" placeholder="city name" class="form-control-sm">
-            <input type="submit" id="search-button" value="Search" class="form-control-sm">
-            <button id="current" type="button" class="form-control-sm">Current Location</button>
+            <input type="search" id="search-field" placeholder="Search" class="form-control-sm">
+            <input type="submit" id="search-button" value="Search" class="btn btn-primary">
             <select id="history" class="form-control-sm"></select>
-            <button type="button" id="clear-history" class="form-control-sm">Clear History</button>
+            <button type="button" id="clear-history" class="btn btn-secondary">Clear History</button>
+            <button id="current" type="button" class="btn btn-secondary">Current Location</button>
           </div>
         </form>
       </div>
@@ -44,31 +43,50 @@
         <p><strong>Search for a city or choose one of your saved searches.</strong></p>
       </div>
     </main>
-    <main id="weather" class="row d-none">
+    <main id="weather" class="row d-none mb-3">
       <div class="col-12">
-        <h1>Current Weather Conditions</h1>
-        <h2 id="city" class="text-center"></h2>
-        <h3 id="main-date" class="text-center"></h3>
-        <div class="card w-75 bg-light text-dark">
-          <img id="main-icon" class="card-img-top">
-          <div class="card-body text-white">
-            <h1 id="main-temp" class="card-title text-center"></h1>
-            <p class="card-text">
-              <strong>Humidity: &nbsp;
-                <span id="main-humidity"></span>
-              </strong><br>
-              <strong>Wind Speed: &nbsp;
-                <span id="main-windspeed"></span>
-              </strong><br>
-              <strong>UV Index: &nbsp;
-                <span id="main-uv"></span>
-              </strong>
-            </p>
+        <div class="row">
+          <div class="col-12">
+            <h1 class="text-center">Current Weather Conditions</h1>
+            <h2 class="text-center" id="city"></h2>
+            <h3 class="text-center" id="main-date"></h3>
           </div>
         </div>
-        <h1>5-Day Forecast</h1>
-        <div id="forecast" class="card-group"></div>
+        <div class="row justify-content-center">
+          <div class="col col-md-8">
+            <div class="card-group align-items-center">
+              <div class="card align-items-center">
+                <img id="main-icon" class="card-img-top">
+              </div>
+              <div class="card align-items-center">
+                <div class="card-body">
+                  <h1 id="main-temp" class="card-title"></h1>
+                  <p class="card-text">
+                    <strong>
+                      Humidity: &nbsp;
+                      <span id="main-humidity"></span>
+                      <br><br>
+                      Wind Speed: &nbsp;
+                      <span id="main-windspeed"></span>
+                      <br><br>
+                      UV Index: &nbsp;
+                      <span id="main-uv"></span>
+                    </strong>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <h1 class="text-center">5-Day Forecast</h1>
+          </div>
+        </div>
+        <div id="forecast" class="row justify-content-center">
+        </div>
       </div>
+    </main>
   </div>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
