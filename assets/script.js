@@ -40,11 +40,13 @@ $(document).ready(function () {
   });
  });
 
- // Search history links event handler
- $(".history-link").click(function (event) {
+ // Search history dropdown event handler
+ $("#history").on("change", function (event) {
   event.preventDefault();
 
-  displayCurrentWeather($(this).text());
+  if ($(this).prop("selectedIndex") > 0) {
+   displayCurrentWeather($(this).val());
+  }
  });
 
  // Clear history button event handler
@@ -137,19 +139,18 @@ function displayExtendedForecast(id) {
 
 function displaySearchHistory() {
  var searchHistory = Lockr.get("searchHistory");
+ var historyDropDown = $("#history");
+ historyDropDown.empty();
  if (searchHistory != null) {
-  $("#search-history").empty();
   for (var i = 0; i < searchHistory.length; i++) {
-   var historyItem = $("<li>").addClass("list-group-item");
-   var historyLink = $("<a>").addClass("history-link");
-   historyLink.text(searchHistory[i]);
-   historyLink.attr("href", "");
-   historyItem.append(historyLink);
-   $("#search-history").prepend(historyItem);
+   var searchOption = $("<option>").text(searchHistory[i]);
+   historyDropDown.prepend(searchOption);
   }
+  historyDropDown.prepend($("<option>").text("Select..."));
  } else {
-  $("#search-history").append("<strong>").text("No search history");
+  historyDropDown.append($("<option>").text("No search history yet"));
  }
+ historyDropDown.prop("selectedIndex", 0);
 }
 
 function saveToSearchHistory(city) {

@@ -24,67 +24,52 @@
         <h1>Weather Dashboard</h1>
       </div>
     </header>
-    <div class="row">
-      <div class="col-12 col-sm-4">
-        <h3 class="text-light bg-secondary">Search</h3>
+    <nav class="row">
+      <div class="col-12 text-light bg-secondary pt-3 mb-3">
         <form>
-          <label for="searchField"><strong>Enter City</strong> </label><br>
-          <input type="search" id="search-field" placeholder="example: Seattle"> &nbsp;
-          <input type="submit" id="search-button" value="Search"> &nbsp;
-          <button id="current" type="button">Current Location</button><br>
+          <div class="form-group">
+            <label for="searchField"><strong>Search</strong> </label>
+            <input type="search" id="search-field" placeholder="city name" class="form-control-sm">
+            <input type="submit" id="search-button" value="Search" class="form-control-sm">
+            <button id="current" type="button" class="form-control-sm">Current Location</button>
+            <select id="history" class="form-control-sm"></select>
+            <button type="button" id="clear-history" class="form-control-sm">Clear History</button>
+          </div>
         </form>
-        <h3 class="text-light bg-secondary">Search History</h3>
-        <ul id="search-history" class="list-group"></ul>
-        <button type="button" id="clear-history">Clear History</button>
       </div>
-      <div id="welcome" class="col">
-        <h3 class="text-light bg-secondary">Welcome</h3>
-        <strong>Search for a city or click on one of your saved searches.</strong>
+    </nav>
+    <main id="welcome" class="row">
+      <div class="col-12">
+        <h1>Welcome</h1>
+        <p><strong>Search for a city or choose one of your saved searches.</strong></p>
       </div>
-      <div id="weather" class="col d-none">
-        <div class="row">
-          <div class="col-12">
-            <h3 class="text-light bg-secondary">Current Weather Conditions</h3>
-            <h1 id="city" class="text-center"></h1>
-            <h2 id="main-date" class="text-center"></h2>
+    </main>
+    <main id="weather" class="row d-none">
+      <div class="col-12">
+        <h1>Current Weather Conditions</h1>
+        <h2 id="city" class="text-center"></h2>
+        <h3 id="main-date" class="text-center"></h3>
+        <div class="card w-75 bg-light text-dark">
+          <img id="main-icon" class="card-img-top">
+          <div class="card-body text-white">
+            <h1 id="main-temp" class="card-title text-center"></h1>
+            <p class="card-text">
+              <strong>Humidity: &nbsp;
+                <span id="main-humidity"></span>
+              </strong><br>
+              <strong>Wind Speed: &nbsp;
+                <span id="main-windspeed"></span>
+              </strong><br>
+              <strong>UV Index: &nbsp;
+                <span id="main-uv"></span>
+              </strong>
+            </p>
           </div>
         </div>
-        <div class="row">
-          <div class="col d-none d-sm-block"></div>
-          <div class="col-12 col-sm-8 col-md-6">
-            <div class="card w-75 bg-light text-dark">
-              <img id="main-icon" class="card-img-top">
-              <div class="card-body text-white">
-                <h1 id="main-temp" class="card-title text-center"></h1>
-                <p class="card-text">
-                  <strong>Humidity: &nbsp;
-                    <span id="main-humidity"></span>
-                  </strong><br>
-                  <strong>Wind Speed: &nbsp;
-                    <span id="main-windspeed"></span>
-                  </strong><br>
-                  <strong>UV Index: &nbsp;
-                    <span id="main-uv"></span>
-                  </strong>
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="col d-none d-sm-block"></div>
-        </div>
-        <div class="row mt-3">
-          <div class="col-12">
-            <h3 class="text-light bg-secondary">5-Day Forecast</h3>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-12">
-            <div id="forecast" class="card-group"></div>
-          </div>
-        </div>
+        <h1>5-Day Forecast</h1>
+        <div id="forecast" class="card-group"></div>
       </div>
-    </div>
-  </div><!-- end of container -->
+  </div>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
